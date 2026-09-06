@@ -1,0 +1,1840 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VEXR | Luxury Global Apparel</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Tajawal:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Tajawal', 'Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        vexr: {
+                            dark: '#0a0a0a',
+                            card: '#141414',
+                            border: '#262626',
+                            gold: '#d4af37',
+                            accent: '#ff3366',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #0a0a0a;
+            color: #f5f5f5;
+            font-family: 'Tajawal', sans-serif;
+            overflow-x: hidden;
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #262626;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #d4af37;
+        }
+        .3d-shadow {
+            text-shadow: 0 1px 0 #ccc, 0 2px 0 #c9c9c9, 0 3px 0 #bbb, 0 4px 0 #b9b9b9, 0 5px 0 #aaa, 0 6px 1px rgba(0,0,0,.1), 0 0 5px rgba(0,0,0,.1), 0 1px 3px rgba(0,0,0,.3), 0 3px 5px rgba(0,0,0,.2), 0 5px 10px rgba(0,0,0,.25);
+        }
+        .price-3d {
+            background: linear-gradient(135deg, #fff 0%, #d4af37 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(2px 2px 4px rgba(212, 175, 55, 0.3));
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        .animate-float {
+            animation: float 4s ease-in-out infinite;
+        }
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 15px rgba(212, 175, 55, 0.2); }
+            50% { box-shadow: 0 0 30px rgba(212, 175, 55, 0.6); }
+        }
+        .glow-box {
+            animation: pulseGlow 3s infinite;
+        }
+    </style>
+</head>
+<body class="bg-vexr-dark text-gray-100 antialiased selection:bg-vexr-gold selection:text-black">
+
+    <!-- Top Announcement Bar -->
+    <div class="bg-gradient-to-r from-neutral-900 via-neutral-800 to-neutral-900 text-vexr-gold text-xs py-2 px-4 text-center font-bold tracking-widest border-b border-vexr-border flex justify-center items-center gap-4">
+        <span><i class="fa-solid fa-crown mr-1"></i> VEXR GLOBAL APPAREL - FUTURE STREETWEAR CULTURE</span>
+        <span class="hidden md:inline">|</span>
+        <span class="hidden md:inline"><i class="fa-solid fa-truck-fast mr-1"></i> توصيل متوفر لجميع ولايات الجزائر (58 ولاية) للمكتب والباب</span>
+    </div>
+
+    <!-- Navigation Bar -->
+    <nav class="sticky top-0 z-50 bg-vexr-dark/90 backdrop-blur-md border-b border-vexr-border transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Brand Logo -->
+            <div class="flex items-center gap-3 cursor-pointer" onclick="switchTab('shop')">
+                <div id="navLogoContainer" class="w-10 h-10 rounded-xl bg-gradient-to-br from-white to-gray-400 flex items-center justify-center text-black font-black text-xl shadow-lg overflow-hidden">
+                    <span id="navLogoText">V</span>
+                </div>
+                <div>
+                    <span class="text-2xl font-black tracking-wider text-white">VEXR</span>
+                    <span class="block text-[9px] text-vexr-gold tracking-widest font-semibold uppercase">Luxury Streetwear</span>
+                </div>
+            </div>
+
+            <!-- Search & Secret Admin Trigger -->
+            <div class="flex-1 max-w-md mx-8 hidden md:block">
+                <div class="relative">
+                    <input type="text" id="searchInput" placeholder="ابحث عن منتج..." oninput="handleGlobalSearch(this.value)" class="w-full bg-vexr-card border border-vexr-border rounded-full py-2.5 pr-10 pl-4 text-sm focus:outline-none focus:border-vexr-gold transition-all text-white placeholder-gray-500">
+                    <i class="fa-solid fa-magnifying-glass absolute right-3.5 top-3 text-gray-400"></i>
+                </div>
+            </div>
+
+            <!-- Nav Actions -->
+            <div class="flex items-center gap-5">
+                <button onclick="switchTab('shop')" class="text-sm font-medium hover:text-vexr-gold transition-colors hidden sm:inline-block">المتجر</button>
+                <button onclick="switchTab('custom')" class="text-sm font-medium hover:text-vexr-gold transition-colors hidden sm:inline-block">تصميم خاص (Custom)</button>
+                <button onclick="switchTab('tracking')" class="text-sm font-medium hover:text-vexr-gold transition-colors hidden sm:inline-block">تتبع الطلبات</button>
+                
+                <!-- Cart Button -->
+                <button onclick="toggleCartModal()" class="relative p-2.5 rounded-full bg-vexr-card border border-vexr-border hover:border-vexr-gold transition-all text-white">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                    <span id="cartBadge" class="absolute -top-1 -right-1 bg-vexr-gold text-black text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center">0</span>
+                </button>
+            </div>
+        </div>
+        <!-- Mobile Search -->
+        <div class="px-4 pb-3 md:hidden">
+            <div class="relative">
+                <input type="text" placeholder="بحث عن منتج..." oninput="handleGlobalSearch(this.value)" class="w-full bg-vexr-card border border-vexr-border rounded-full py-2 pr-10 pl-4 text-xs focus:outline-none focus:border-vexr-gold text-white">
+                <i class="fa-solid fa-magnifying-glass absolute right-3.5 top-2.5 text-gray-400 text-xs"></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Container -->
+    <main id="mainContainer">
+        <!-- SHOP / HOME VIEW -->
+        <div id="shopView" class="space-y-16 pb-20">
+            <!-- Cinematic Hero Section -->
+            <div class="relative h-[85vh] w-full overflow-hidden bg-black flex items-center justify-center">
+                <div id="heroSliderContainer" class="absolute inset-0 z-0">
+                    <!-- Dynamic Hero Backgrounds will be injected here -->
+                </div>
+                <div class="absolute inset-0 bg-gradient-to-t from-vexr-dark via-vexr-dark/40 to-transparent z-10"></div>
+                
+                <div class="relative z-20 text-center max-w-4xl px-4 animate-float">
+                    <span class="px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-vexr-gold text-xs font-bold tracking-widest uppercase mb-4 inline-block">
+                        مجموعة الشتاء والصيف الفاخرة // 2026
+                    </span>
+                    <h1 class="text-5xl md:text-7xl font-black tracking-tight mb-6 3d-shadow uppercase">
+                        VEXR <span class="text-vexr-gold">LEGACY</span>
+                    </h1>
+                    <p class="text-gray-300 text-lg md:text-xl font-light max-w-2xl mx-auto mb-8">
+                        تصاميم مستوحاة من ثقافة الشارع العالمية، الأنمي، والسيارات الأسطورية بجودة تصنيع عالمية فائقة.
+                    </p>
+                    <div class="flex justify-center gap-4">
+                        <button onclick="scrollToProducts()" class="px-8 py-4 bg-white text-black font-bold rounded-full hover:bg-vexr-gold transition-all shadow-xl hover:scale-105">
+                            تسوق المجموعة الآن <i class="fa-solid fa-arrow-down mr-2"></i>
+                        </button>
+                        <button onclick="switchTab('custom')" class="px-8 py-4 bg-transparent border border-white/30 text-white font-bold rounded-full hover:bg-white/10 transition-all backdrop-blur-sm">
+                            اطلب تصميمك الخاص
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Products Section -->
+            <div id="productsSection" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex flex-col md:flex-row md:items-end justify-between mb-10">
+                    <div>
+                        <span class="text-vexr-gold text-xs font-bold tracking-widest uppercase">حصري وفاخر</span>
+                        <h2 class="text-3xl font-black mt-1">تشكيلة المنتجات العالمية</h2>
+                    </div>
+                    <div class="flex gap-2 mt-4 md:mt-0 overflow-x-auto pb-2">
+                        <button onclick="filterCategory('all')" class="cat-btn px-5 py-2 rounded-full bg-white text-black text-sm font-bold transition-all">الكل</button>
+                        <button onclick="filterCategory('oversized')" class="cat-btn px-5 py-2 rounded-full bg-vexr-card border border-vexr-border text-gray-300 text-sm font-medium hover:border-vexr-gold transition-all">أوفرسايز T-Shirt</button>
+                        <button onclick="filterCategory('hoodie')" class="cat-btn px-5 py-2 rounded-full bg-vexr-card border border-vexr-border text-gray-300 text-sm font-medium hover:border-vexr-gold transition-all">هودي وسويتشيرت</button>
+                    </div>
+                </div>
+
+                <!-- Products Grid -->
+                <div id="productsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                    <!-- Dynamic Products Rendered Here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- PRODUCT DETAILS MODAL -->
+        <div id="productModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden items-center justify-center p-4 overflow-y-auto">
+            <div class="bg-vexr-card border border-vexr-border rounded-3xl max-w-4xl w-full max-h-[90vh] overflow-y-auto relative p-6 md:p-8 animate-fadeIn">
+                <button onclick="closeProductModal()" class="absolute top-6 left-6 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-all z-10">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+                <div id="productModalContent">
+                    <!-- Dynamic Product Details -->
+                </div>
+            </div>
+        </div>
+
+        <!-- CHECKOUT MODAL -->
+        <div id="checkoutModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden items-center justify-center p-4 overflow-y-auto">
+            <div class="bg-vexr-card border border-vexr-border rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto relative p-6 md:p-8">
+                <button onclick="closeCheckoutModal()" class="absolute top-6 left-6 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-all">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+                <h3 class="text-2xl font-black mb-6 text-white flex items-center gap-3">
+                    <i class="fa-solid fa-truck-fast text-vexr-gold"></i> إتمام الطلب السريع
+                </h3>
+                <form id="checkoutForm" onsubmit="submitOrder(event)" class="space-y-5">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-400 mb-1">الاسم الكامل *</label>
+                            <input type="text" id="orderName" required class="w-full bg-vexr-dark border border-vexr-border rounded-xl px-4 py-3 text-sm text-white focus:border-vexr-gold focus:outline-none" placeholder="الاسم واللقب">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-400 mb-1">رقم الهاتف *</label>
+                            <input type="tel" id="orderPhone" required class="w-full bg-vexr-dark border border-vexr-border rounded-xl px-4 py-3 text-sm text-white focus:border-vexr-gold focus:outline-none" placeholder="07xxxxxxxx">
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-400 mb-1">الولاية (58 ولاية) *</label>
+                            <select id="orderWilaya" onchange="updateShippingCost()" required class="w-full bg-vexr-dark border border-vexr-border rounded-xl px-4 py-3 text-sm text-white focus:border-vexr-gold focus:outline-none">
+                                <option value="">اختر الولاية...</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-400 mb-1">البلدية *</label>
+                            <input type="text" id="orderBaladia" required class="w-full bg-vexr-dark border border-vexr-border rounded-xl px-4 py-3 text-sm text-white focus:border-vexr-gold focus:outline-none" placeholder="البلدية">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-400 mb-1">طريقة التوصيل *</label>
+                            <select id="orderDeliveryType" onchange="updateShippingCost()" required class="w-full bg-vexr-dark border border-vexr-border rounded-xl px-4 py-3 text-sm text-white focus:border-vexr-gold focus:outline-none">
+                                <option value="desk">توصيل للمكتب (Desk)</option>
+                                <option value="door">توصيل للباب (Door)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-400 mb-1">العنوان الكامل بالتفصيل *</label>
+                        <textarea id="orderAddress" rows="2" required class="w-full bg-vexr-dark border border-vexr-border rounded-xl px-4 py-3 text-sm text-white focus:border-vexr-gold focus:outline-none" placeholder="الحي، الشارع، رقم المنزل..."></textarea>
+                    </div>
+
+                    <!-- Order Summary Box -->
+                    <div class="bg-vexr-dark p-4 rounded-2xl border border-vexr-border space-y-2">
+                        <div class="flex justify-between text-sm text-gray-400">
+                            <span>مجموع المنتجات:</span>
+                            <span id="summarySubtotal">0 دج</span>
+                        </div>
+                        <div class="flex justify-between text-sm text-gray-400">
+                            <span>سعر التوصيل:</span>
+                            <span id="summaryShipping">0 دج</span>
+                        </div>
+                        <div class="border-t border-vexr-border pt-2 flex justify-between text-lg font-black text-white">
+                            <span>المجموع الإجمالي:</span>
+                            <span id="summaryTotal" class="text-vexr-gold">0 دج</span>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="w-full py-4 bg-gradient-to-r from-vexr-gold to-yellow-600 text-black font-black rounded-xl hover:opacity-95 transition-all shadow-lg text-base">
+                        تأكيد طلب الشراء الآن <i class="fa-solid fa-check ml-2"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- CART DRAWER / MODAL -->
+        <div id="cartModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden justify-end">
+            <div class="bg-vexr-card border-l border-vexr-border w-full max-w-md h-full flex flex-col p-6 animate-slideLeft">
+                <div class="flex items-center justify-between pb-4 border-b border-vexr-border">
+                    <h3 class="text-xl font-black text-white flex items-center gap-2">
+                        <i class="fa-solid fa-bag-shopping text-vexr-gold"></i> سلة المشتريات
+                    </h3>
+                    <button onclick="toggleCartModal()" class="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center text-white">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+                <div id="cartItemsList" class="flex-1 overflow-y-auto py-4 space-y-4">
+                    <!-- Cart Items Rendered Here -->
+                </div>
+                <div class="border-t border-vexr-border pt-4 space-y-4">
+                    <div class="flex justify-between text-base font-bold">
+                        <span>المجموع:</span>
+                        <span id="cartTotalPrice" class="text-vexr-gold">0 دج</span>
+                    </div>
+                    <button onclick="openCheckout()" class="w-full py-4 bg-white text-black font-black rounded-xl hover:bg-vexr-gold transition-all">
+                        متابعة إتمام الطلب <i class="fa-solid fa-arrow-left mr-2"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- CUSTOM DESIGN VIEW -->
+        <div id="customView" class="max-w-4xl mx-auto px-4 py-12 hidden">
+            <div class="bg-vexr-card border border-vexr-border rounded-3xl p-8 shadow-2xl">
+                <div class="text-center max-w-xl mx-auto mb-10">
+                    <span class="text-vexr-gold text-xs font-bold tracking-widest uppercase">Custom Studio</span>
+                    <h2 class="text-3xl font-black mt-1 mb-2">قسم الطلبات الخاصة والتصميم</h2>
+                    <p class="text-gray-400 text-sm">ارسم فكرتك أو ارفع صور التصميم الذي تطمح لارتدائه، وسنقوم بتنفيذه بأعلى معايير الجودة العالمية لبراند VEXR.</p>
+                </div>
+                <form onsubmit="submitCustomDesign(event)" class="space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-400 mb-1">الاسم الكامل *</label>
+                            <input type="text" id="customName" required class="w-full bg-vexr-dark border border-vexr-border rounded-xl px-4 py-3 text-sm text-white focus:border-vexr-gold focus:outline-none" placeholder="الاسم واللقب">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-400 mb-1">رقم الهاتف *</label>
+                            <input type="tel" id="customPhone" required class="w-full bg-vexr-dark border border-vexr-border rounded-xl px-4 py-3 text-sm text-white focus:border-vexr-gold focus:outline-none" placeholder="07xxxxxxxx">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-400 mb-1">الولاية *</label>
+                            <select id="customWilaya" required class="w-full bg-vexr-dark border border-vexr-border rounded-xl px-4 py-3 text-sm text-white focus:border-vexr-gold focus:outline-none">
+                                <option value="">اختر الولاية...</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-400 mb-1">البلدية *</label>
+                            <input type="text" id="customBaladia" required class="w-full bg-vexr-dark border border-vexr-border rounded-xl px-4 py-3 text-sm text-white focus:border-vexr-gold focus:outline-none" placeholder="البلدية">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-400 mb-1">شرح التصميم المطلوب بالتفصيل *</label>
+                        <textarea id="customDesc" rows="4" required class="w-full bg-vexr-dark border border-vexr-border rounded-xl px-4 py-3 text-sm text-white focus:border-vexr-gold focus:outline-none" placeholder="صف التصميم، الألوان، مكان الطباعة (أمامية أو خلفية)..."></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-400 mb-2">اختر صور التصميم (بحد أقصى 4 صور - اختيارية)</label>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <div class="bg-vexr-dark border border-vexr-border rounded-xl p-3 flex flex-col gap-2">
+                                <span class="text-xs font-bold text-vexr-gold">اختر الصورة الأولى</span>
+                                <input type="file" accept="image/*" onchange="handleCustomSingleImage(event, 0)" class="w-full text-xs text-gray-400 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-vexr-gold file:text-black">
+                            </div>
+                            <div class="bg-vexr-dark border border-vexr-border rounded-xl p-3 flex flex-col gap-2">
+                                <span class="text-xs font-bold text-vexr-gold">اختر الصورة الثانية</span>
+                                <input type="file" accept="image/*" onchange="handleCustomSingleImage(event, 1)" class="w-full text-xs text-gray-400 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-vexr-gold file:text-black">
+                            </div>
+                            <div class="bg-vexr-dark border border-vexr-border rounded-xl p-3 flex flex-col gap-2">
+                                <span class="text-xs font-bold text-vexr-gold">اختر الصورة الثالثة</span>
+                                <input type="file" accept="image/*" onchange="handleCustomSingleImage(event, 2)" class="w-full text-xs text-gray-400 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-vexr-gold file:text-black">
+                            </div>
+                            <div class="bg-vexr-dark border border-vexr-border rounded-xl p-3 flex flex-col gap-2">
+                                <span class="text-xs font-bold text-vexr-gold">اختر الصورة الرابعة</span>
+                                <input type="file" accept="image/*" onchange="handleCustomSingleImage(event, 3)" class="w-full text-xs text-gray-400 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-vexr-gold file:text-black">
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="w-full py-4 bg-white text-black font-black rounded-xl hover:bg-vexr-gold transition-all text-base shadow-xl">
+                        إرسال طلب التصميم الخاص <i class="fa-solid fa-paper-plane mr-2"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- ORDER TRACKING VIEW -->
+        <div id="trackingView" class="max-w-2xl mx-auto px-4 py-16 hidden">
+            <div class="bg-vexr-card border border-vexr-border rounded-3xl p-8 text-center space-y-6">
+                <h2 class="text-2xl font-black">تتبع طلباتك</h2>
+                <p class="text-gray-400 text-sm">أدخل رقم الهاتف الذي قمت بالطلب به لمعرفة حالة طلباتك الحالية.</p>
+                <div class="flex gap-3">
+                    <input type="tel" id="trackPhoneInput" placeholder="رقم الهاتف..." class="flex-1 bg-vexr-dark border border-vexr-border rounded-xl px-4 py-3 text-sm text-white focus:border-vexr-gold focus:outline-none">
+                    <button onclick="trackOrders()" class="px-6 py-3 bg-vexr-gold text-black font-bold rounded-xl hover:opacity-90">بحث</button>
+                </div>
+                <div id="trackingResults" class="space-y-4 text-right"></div>
+            </div>
+        </div>
+
+        <!-- PASSWORD PROMPT MODAL (VEXR YAHIA_26) -->
+        <div id="passwordModal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md hidden items-center justify-center p-4">
+            <div class="bg-vexr-card border border-vexr-gold/50 rounded-3xl max-w-md w-full p-8 text-center space-y-6 glow-box relative">
+                <div class="w-16 h-16 bg-vexr-gold/10 rounded-2xl mx-auto flex items-center justify-center text-vexr-gold text-2xl font-black">
+                    <i class="fa-solid fa-lock"></i>
+                </div>
+                <div>
+                    <h3 class="text-2xl font-black text-white">منطقة الإدارة السرية</h3>
+                    <p class="text-gray-400 text-xs mt-1">أدخل كلمة المرور الخاصة بالمالك (VEXRYK_26)</p>
+                </div>
+                <input type="password" id="adminPasswordInput" placeholder="كلمة المرور..." class="w-full bg-vexr-dark border border-vexr-border rounded-xl px-4 py-3 text-center text-lg tracking-widest text-white focus:border-vexr-gold focus:outline-none">
+                <div class="flex gap-3">
+                    <button onclick="closePasswordModal()" class="flex-1 py-3 bg-vexr-dark border border-vexr-border rounded-xl font-bold text-gray-300">إلغاء</button>
+                    <button onclick="verifyAdminPassword()" class="flex-1 py-3 bg-vexr-gold text-black font-black rounded-xl hover:opacity-90">دخول</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ADMIN DASHBOARD VIEW -->
+        <div id="adminView" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 hidden space-y-10">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-vexr-card border border-vexr-border p-6 rounded-3xl">
+                <div>
+                    <span class="text-vexr-gold text-xs font-bold tracking-widest uppercase">لوحة التحكم الخاصة بالمالك</span>
+                    <h1 class="text-3xl font-black text-white mt-1">مرحباً بك، يحيى <i class="fa-solid fa-crown text-vexr-gold"></i></h1>
+                </div>
+                <div class="flex items-center gap-3">
+                    <button onclick="switchTab('shop')" class="px-5 py-2.5 bg-vexr-dark border border-vexr-border rounded-xl text-sm font-bold hover:border-vexr-gold">العودة للمتجر</button>
+                    <button onclick="logoutAdmin()" class="px-5 py-2.5 bg-red-600/20 border border-red-500/50 text-red-400 rounded-xl text-sm font-bold hover:bg-red-600 hover:text-white transition-all">تسجيل خروج</button>
+                </div>
+            </div>
+
+            <!-- Stats Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="bg-vexr-card border border-vexr-border p-6 rounded-2xl">
+                    <span class="text-gray-400 text-xs font-semibold">أرباح اليوم</span>
+                    <h3 id="statTodayProfit" class="text-2xl font-black text-vexr-gold mt-2">0 دج</h3>
+                </div>
+                <div class="bg-vexr-card border border-vexr-border p-6 rounded-2xl">
+                    <span class="text-gray-400 text-xs font-semibold">أرباح الشهر</span>
+                    <h3 id="statMonthProfit" class="text-2xl font-black text-white mt-2">0 دج</h3>
+                </div>
+                <div class="bg-vexr-card border border-vexr-border p-6 rounded-2xl">
+                    <span class="text-gray-400 text-xs font-semibold">طلبات اليوم / الشهر</span>
+                    <h3 id="statOrdersCount" class="text-2xl font-black text-white mt-2">0 / 0</h3>
+                </div>
+                <div class="bg-vexr-card border border-vexr-border p-6 rounded-2xl">
+                    <span class="text-gray-400 text-xs font-semibold">المنتجات المباعة</span>
+                    <h3 id="statSoldItems" class="text-2xl font-black text-white mt-2">0</h3>
+                </div>
+            </div>
+
+            <!-- Admin Tabs Navigation -->
+            <div class="flex gap-3 overflow-x-auto pb-2 border-b border-vexr-border">
+                <button onclick="switchAdminTab('products')" class="admin-tab-btn px-6 py-3 rounded-xl bg-vexr-gold text-black font-bold text-sm transition-all">إدارة المنتجات</button>
+                <button onclick="switchAdminTab('orders')" class="admin-tab-btn px-6 py-3 rounded-xl bg-vexr-card border border-vexr-border text-gray-300 font-medium text-sm hover:border-vexr-gold transition-all">إدارة الطلبات</button>
+                <button onclick="switchAdminTab('hero')" class="admin-tab-btn px-6 py-3 rounded-xl bg-vexr-card border border-vexr-border text-gray-300 font-medium text-sm hover:border-vexr-gold transition-all">صور الخلفيات (Hero)</button>
+                <button onclick="switchAdminTab('wilayas')" class="admin-tab-btn px-6 py-3 rounded-xl bg-vexr-card border border-vexr-border text-gray-300 font-medium text-sm hover:border-vexr-gold transition-all">أسعار التوصيل والولايات</button>
+                <button onclick="switchAdminTab('customs')" class="admin-tab-btn px-6 py-3 rounded-xl bg-vexr-card border border-vexr-border text-gray-300 font-medium text-sm hover:border-vexr-gold transition-all">طلبات التصميم الخاص</button>
+                <button onclick="switchAdminTab('settings')" class="admin-tab-btn px-6 py-3 rounded-xl bg-vexr-card border border-vexr-border text-gray-300 font-medium text-sm hover:border-vexr-gold transition-all">إعدادات الشعار (Logo)</button>
+                <button onclick="switchAdminTab('analytics')" class="admin-tab-btn px-6 py-3 rounded-xl bg-vexr-card border border-vexr-border text-gray-300 font-medium text-sm hover:border-vexr-gold transition-all">الرسوم البيانية والإحصائيات</button>
+            </div>
+
+            <!-- Admin Tab 1: Products Management -->
+            <div id="adminProducts" class="space-y-6">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-xl font-black">قائمة المنتجات والعروض</h3>
+                    <button onclick="openProductFormModal()" class="px-5 py-2.5 bg-vexr-gold text-black font-bold rounded-xl text-sm flex items-center gap-2">
+                        <i class="fa-solid fa-plus"></i> إضافة منتج جديد
+                    </button>
+                </div>
+                <div id="adminProductsList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+            </div>
+
+            <!-- Admin Tab 2: Orders Management -->
+            <div id="adminOrders" class="space-y-6 hidden">
+                <h3 class="text-xl font-black">طلبات الزبائن الواردة وتغيير حالاتها</h3>
+                <div id="adminOrdersList" class="space-y-4"></div>
+            </div>
+
+            <!-- Admin Tab 3: Hero Images -->
+            <div id="adminHero" class="space-y-6 hidden">
+                <h3 class="text-xl font-black">إدارة صور الخلفيات السينمائية (Hero)</h3>
+                <div class="flex gap-3">
+                    <input type="text" id="newHeroUrl" placeholder="أدخل رابط صورة الخلفية (URL)..." class="flex-1 bg-vexr-card border border-vexr-border rounded-xl px-4 py-3 text-sm text-white focus:border-vexr-gold">
+                    <button onclick="addHeroImage()" class="px-6 py-3 bg-vexr-gold text-black font-bold rounded-xl">إضافة صورة</button>
+                </div>
+                <div id="adminHeroList" class="grid grid-cols-1 sm:grid-cols-3 gap-4"></div>
+            </div>
+
+            <!-- Admin Tab 4: Wilayas & Shipping -->
+            <div id="adminWilayas" class="space-y-6 hidden">
+                <h3 class="text-xl font-black">إدارة ولايات الجزائر وأسعار التوصيل (مكتب وباب)</h3>
+                <div id="adminWilayasList" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-h-[600px] overflow-y-auto p-2"></div>
+            </div>
+
+            <!-- Admin Tab 5: Custom Designs -->
+            <div id="adminCustoms" class="space-y-6 hidden">
+                <h3 class="text-xl font-black">طلبات التصميم الخاص الواردة</h3>
+                <div id="adminCustomsList" class="space-y-4"></div>
+            </div>
+
+            <!-- Admin Tab 6: Logo Settings & Phone Notifications -->
+            <div id="adminSettings" class="space-y-6 hidden">
+                <h3 class="text-xl font-black">إعدادات الشعار ورقم هاتف تلقي الطلبات</h3>
+                <div class="bg-vexr-card border border-vexr-border p-6 rounded-2xl space-y-6">
+                    <div class="space-y-2">
+                        <label class="block text-xs font-semibold text-gray-400">تغيير شعار الموقع (يتغير في أعلى اليسار وفي الأسفل معاً)</label>
+                        <div class="flex gap-3">
+                            <input type="text" id="adminLogoUrlInput" placeholder="أدخل رابط صورة اللوغو (URL)..." class="flex-1 bg-vexr-dark border border-vexr-border rounded-xl px-4 py-3 text-sm text-white focus:border-vexr-gold">
+                            <button onclick="saveAdminLogo()" class="px-6 py-3 bg-vexr-gold text-black font-bold rounded-xl">حفظ اللوغو</button>
+                        </div>
+                    </div>
+
+                    <div class="border-t border-vexr-border pt-4 space-y-2">
+                        <label class="block text-xs font-semibold text-vexr-gold">📱 رقم هاتفك لتلقي رسائل الطلبات الجديدة</label>
+                        <p class="text-xs text-gray-400">أدخل رقم الهاتف الذي ستصلك عليه إشعارات الطلبيات الجديدة:</p>
+                        <div class="flex gap-3">
+                            <input type="tel" id="adminOwnerPhoneInput" placeholder="مثال: 0712345678" class="flex-1 bg-vexr-dark border border-vexr-border rounded-xl px-4 py-3 text-sm text-white focus:border-vexr-gold">
+                            <button onclick="saveOwnerPhone()" class="px-6 py-3 bg-vexr-gold text-black font-bold rounded-xl">حفظ الرقم</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Admin Tab 7: Analytics Charts -->
+            <div id="adminAnalytics" class="space-y-6 hidden">
+                <h3 class="text-xl font-black">الرسوم البيانية للأرباح والمبيعات</h3>
+                <div class="bg-vexr-card border border-vexr-border p-6 rounded-3xl">
+                    <canvas id="profitChart" height="100"></canvas>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- PRODUCT ADD/EDIT MODAL FOR ADMIN -->
+    <div id="productFormModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-vexr-card border border-vexr-border rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6 md:p-8 space-y-6">
+            <h3 id="productFormTitle" class="text-2xl font-black text-white">إضافة منتج جديد</h3>
+            <form id="productForm" onsubmit="saveProduct(event)" class="space-y-4">
+                <input type="hidden" id="editProductId">
+                <div>
+                    <label class="block text-xs font-semibold text-gray-400 mb-1">اسم المنتج *</label>
+                    <input type="text" id="pName" required class="w-full bg-vexr-dark border border-vexr-border rounded-xl px-4 py-3 text-sm text-white">
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-400 mb-1">السعر الحالي (دج) *</label>
+                        <input type="number" id="pPrice" required class="w-full bg-vexr-dark border border-vexr-border rounded-xl px-4 py-3 text-sm text-white">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-400 mb-1">السعر القديم (اختياري للتخفيض)</label>
+                        <input type="number" id="pOldPrice" class="w-full bg-vexr-dark border border-vexr-border rounded-xl px-4 py-3 text-sm text-white">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-400 mb-1">التصنيف *</label>
+                    <select id="pCategory" class="w-full bg-vexr-dark border border-vexr-border rounded-xl px-4 py-3 text-sm text-white">
+                        <option value="oversized">أوفرسايز T-Shirt</option>
+                        <option value="hoodie">هودي وسويتشيرت</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-400 mb-1">وصف المنتج *</label>
+                    <textarea id="pDesc" rows="3" required class="w-full bg-vexr-dark border border-vexr-border rounded-xl px-4 py-3 text-sm text-white"></textarea>
+                </div>
+                
+                <!-- Compact Collapsible / Expandable Image Uploader for 10 Images -->
+                <div class="bg-vexr-dark border border-vexr-border rounded-2xl p-4 space-y-3">
+                    <div class="flex items-center justify-between cursor-pointer" onclick="toggleAdminImageDrawer()">
+                        <div>
+                            <label class="block text-xs font-semibold text-vexr-gold cursor-pointer"><i class="fa-solid fa-images"></i> صور المنتج (حتى 10 صور - اضغط للفتح/الإخفاء)</label>
+                            <span class="text-[10px] text-gray-400" id="adminImageCountStatus">مُختار 0 صور (تظهر 4 أزرار مصغرة أولاً)</span>
+                        </div>
+                        <i id="adminImageDrawerIcon" class="fa-solid fa-chevron-down text-vexr-gold text-xs transition-transform"></i>
+                    </div>
+                    
+                    <div id="adminImageDrawerBody" class="space-y-3 hidden pt-2 border-t border-vexr-border">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2" id="adminTenImageInputsContainer">
+                            <!-- Generated via JS for compact 10 slots -->
+                        </div>
+                        <input type="hidden" id="pImages" value="">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Interactive Color Selector Builder -->
+                    <div class="bg-vexr-dark p-4 rounded-2xl border border-vexr-border space-y-2">
+                        <label class="block text-xs font-semibold text-vexr-gold mb-1"><i class="fa-solid fa-palette"></i> تقنية اختيار الألوان المتاحة</label>
+                        <div class="flex gap-2">
+                            <input type="text" id="colorInputText" placeholder="اكتب اللون (مثلا: أحمر)..." class="flex-1 bg-vexr-card border border-vexr-border rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-vexr-gold">
+                            <button type="button" onclick="addColorOption()" class="px-4 py-2 bg-vexr-gold text-black font-bold text-xs rounded-xl hover:opacity-90">تأكيد / التالي</button>
+                        </div>
+                        <div id="colorChipsContainer" class="flex flex-wrap gap-2 pt-2"></div>
+                        <input type="hidden" id="pColors" value="أسود, أبيض">
+                    </div>
+
+                    <!-- Interactive Size Selector Builder -->
+                    <div class="bg-vexr-dark p-4 rounded-2xl border border-vexr-border space-y-2">
+                        <label class="block text-xs font-semibold text-vexr-gold mb-1"><i class="fa-solid fa-ruler"></i> تقنية اختيار المقاسات المتاحة</label>
+                        <div class="flex gap-2">
+                            <input type="text" id="sizeInputText" placeholder="اكتب المقاس (مثلا: L)..." class="flex-1 bg-vexr-card border border-vexr-border rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-vexr-gold">
+                            <button type="button" onclick="addSizeOption()" class="px-4 py-2 bg-vexr-gold text-black font-bold text-xs rounded-xl hover:opacity-90">تأكيد / التالي</button>
+                        </div>
+                        <div id="sizeChipsContainer" class="flex flex-wrap gap-2 pt-2"></div>
+                        <input type="hidden" id="pSizes" value="M, L">
+                    </div>
+                </div>
+
+                <!-- Bundles / Offers Configuration -->
+                <div class="border-t border-vexr-border pt-4 space-y-3">
+                    <h4 class="font-bold text-sm text-vexr-gold">نظام العروض المتقدم (Bundles)</h4>
+                    <div id="bundleInputs" class="space-y-2">
+                        <div class="flex gap-2">
+                            <input type="number" placeholder="عدد القطع (مثلا 2)" class="bundle-qty flex-1 bg-vexr-dark border border-vexr-border rounded-xl px-3 py-2 text-sm text-white">
+                            <input type="number" placeholder="السعر الإجمالي للعرض (دج)" class="bundle-price flex-1 bg-vexr-dark border border-vexr-border rounded-xl px-3 py-2 text-sm text-white">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex gap-3 pt-4">
+                    <button type="button" onclick="closeProductFormModal()" class="flex-1 py-3 bg-vexr-dark border border-vexr-border rounded-xl font-bold text-gray-300">إلغاء</button>
+                    <button type="submit" class="flex-1 py-3 bg-vexr-gold text-black font-black rounded-xl">حفظ المنتج</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ORDER NOTIFICATION MODAL PREVIEW -->
+    <div id="orderNotificationModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden items-center justify-center p-4">
+        <div class="bg-vexr-card border border-vexr-gold rounded-3xl max-w-md w-full p-6 text-center space-y-4 glow-box relative">
+            <div class="w-12 h-12 bg-vexr-gold/20 rounded-full mx-auto flex items-center justify-center text-vexr-gold text-xl">
+                🔔
+            </div>
+            <h3 class="text-xl font-black text-white">إشعار طلبية جديدة وصول</h3>
+            <div id="orderNotificationContent" class="bg-vexr-dark p-4 rounded-2xl border border-vexr-border text-right text-xs text-gray-200 leading-relaxed space-y-2">
+                <!-- Message content rendered here -->
+            </div>
+            <button onclick="closeOrderNotificationModal()" class="w-full py-3 bg-vexr-gold text-black font-bold rounded-xl">تم الاطلاع</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-vexr-card border-t border-vexr-border py-12 px-4 sm:px-6 lg:px-8 mt-20">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+            <div>
+                <div class="flex items-center gap-3 mb-4">
+                    <div id="footerLogoContainer" class="w-8 h-8 rounded-lg bg-white text-black font-black flex items-center justify-center overflow-hidden">V</div>
+                    <span class="text-xl font-black text-white">VEXR</span>
+                </div>
+                <p class="text-gray-400 text-xs leading-relaxed">براند ملابس عالمي رائد في ثقافة الشارع (Streetwear)، نقدم تصاميم حصرية بجودة لا تقبل المنافسة.</p>
+            </div>
+            <div>
+                <h4 class="font-bold text-sm text-white mb-4">روابط سريعة</h4>
+                <ul class="space-y-2 text-xs text-gray-400">
+                    <li><a href="#" onclick="switchTab('shop')" class="hover:text-vexr-gold">المتجر الرئيسي</a></li>
+                    <li><a href="#" onclick="switchTab('custom')" class="hover:text-vexr-gold">التصميم الخاص</a></li>
+                    <li><a href="#" onclick="switchTab('tracking')" class="hover:text-vexr-gold">تتبع الطلبات</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-bold text-sm text-white mb-4">خدمة العملاء</h4>
+                <ul class="space-y-2 text-xs text-gray-400">
+                    <li>توصيل سريع لـ 58 ولاية</li>
+                    <li>الدفع عند الاستلام</li>
+                    <li>ضمان الجودة العالمية</li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-bold text-sm text-white mb-4">تابع البراند</h4>
+                <div class="flex gap-4 text-gray-400 text-lg">
+                    <a href="#" class="hover:text-vexr-gold"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" class="hover:text-vexr-gold"><i class="fa-brands fa-tiktok"></i></a>
+                    <a href="#" class="hover:text-vexr-gold"><i class="fa-brands fa-telegram"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto border-t border-vexr-border pt-6 text-center text-xs text-gray-500">
+            &copy; 2026 VEXR Apparel Brand. All Rights Reserved. Designed for Global Excellence.
+        </div>
+    </footer>
+
+    <!-- JavaScript Application Core -->
+    <script>
+        // 58 Wilayas of Algeria with default Desk & Door shipping prices
+        const wilayasAlgeria = [
+            "01. أدرار", "02. الشلف", "03. الأغواط", "04. أم البواقي", "05. باتنة", "06. بجاية", "07. بسكرة", "08. بشار", "09. البليدة", "10. البويرة",
+            "11. تمنراست", "12. تبسة", "13. تلمسان", "14. تيارت", "15. تيزي وزو", "16. الجزائر العاصمة", "17. الجلفة", "18. جيجل", "19. سطيف", "20. سعيدة",
+            "21. سكيكدة", "22. سيدي بلعباس", "23. عنابة", "24. قالمة", "25. قسنطينة", "26. المدية", "27. مستغانم", "28. المسيلة", "29. معسكر", "30. ورقلة",
+            "31. وهران", "32. البيض", "33. إليزي", "34. برج بوعريريج", "35. بومرداس", "36. الطارف", "37. تندوف", "38. تيسمسيلت", "39. الوادي", "40. خنشلة",
+            "41. سوق أهراس", "42. تيبازة", "43. ميلة", "44. عين الدفلى", "45. النعامة", "46. عين تموشنت", "47. غرداية", "48. غليزان", "49. المغير", "50. المنيعة",
+            "51. أولاد جلال", "52. برج باجي مختار", "53. بني عباس", "54. إن صالح", "55. إن قزام", "56. تقرت", "57. جانت", "58. المغير"
+        ];
+
+        // Initial Default Data
+        const defaultHeroImages = [
+            "https://images.unsplash.com/photo-1558769132-cb1aea458c5e?q=80&w=1920&auto=format&fit=crop",
+            "https://images.unsplash.com/photo-1509631179647-0177331693ae?q=80&w=1920&auto=format&fit=crop",
+            "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=1920&auto=format&fit=crop"
+        ];
+
+        const defaultProducts = [
+            {
+                id: "vexr-1",
+                name: "VEXR Toji Fushiguro Oversized Tee",
+                category: "oversized",
+                price: 3200,
+                oldPrice: 4000,
+                desc: "تيشيرت أوفرسايز فاخر بتصميم أنمي توجي فوشيجورو الأسطوري. مصنوع من قطن عالي الجودة 100% مع طباعة رقمية بارزة وتفاصيل دقيقة تلبي طموحات عشاق الموضة.",
+                images: [
+                    "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?q=80&w=800&auto=format&fit=crop",
+                    "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?q=80&w=800&auto=format&fit=crop"
+                ],
+                colors: ["أسود", "أبيض"],
+                sizes: ["S", "M", "L", "XL", "XXL"],
+                bundles: [{ qty: 2, price: 5800 }]
+            },
+            {
+                id: "vexr-2",
+                name: "VEXR Cyber Punk Electric Storm Hoodie",
+                category: "hoodie",
+                price: 5500,
+                oldPrice: 6800,
+                desc: "هودي شتوي ثقيل بتصميم البرق المستقبلي وشعار VEXR القوطي البارز. يوفر دفئاً مثالياً وإطلالة جريئة تخطف الأنظار.",
+                images: [
+                    "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?q=80&w=800&auto=format&fit=crop",
+                    "https://images.unsplash.com/photo-1578587018452-892bacefd3f2?q=80&w=800&auto=format&fit=crop"
+                ],
+                colors: ["أسود", "رمادي", "كحلي"],
+                sizes: ["M", "L", "XL", "XXL"],
+                bundles: [{ qty: 2, price: 10000 }]
+            },
+            {
+                id: "vexr-3",
+                name: "VEXR Legendary JDM Drift Sweatshirt",
+                category: "hoodie",
+                price: 4800,
+                oldPrice: 6000,
+                desc: "سويتشيرت فاخر مستوحى من ثقافة سيارات الدريفت اليابانية والسرعة المطلقة. قطن معالج ضد الانكماش مع تطريز عالي الدقة.",
+                images: [
+                    "https://images.unsplash.com/photo-1576566588028-4147f3842f27?q=80&w=800&auto=format&fit=crop",
+                    "https://images.unsplash.com/photo-1543076447-215ad9ba6923?q=80&w=800&auto=format&fit=crop"
+                ],
+                colors: ["بيج", "أسود"],
+                sizes: ["S", "M", "L", "XL"],
+                bundles: [{ qty: 2, price: 9000 }]
+            },
+            {
+                id: "vexr-4",
+                name: "VEXR Space Bear Streetwear Tee",
+                category: "oversized",
+                price: 3000,
+                oldPrice: 3800,
+                desc: "تيشيرت صيفي بتصميم الدب الفضائي العصري. قصة واسعة راقية ومريحة لجميع الأنشطة اليومية.",
+                images: [
+                    "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?q=80&w=800&auto=format&fit=crop",
+                    "https://images.unsplash.com/photo-1562157873-818bc0726f68?q=80&w=800&auto=format&fit=crop"
+                ],
+                colors: ["أبيض", "أسود", "بني"],
+                sizes: ["S", "M", "L", "XL", "XXL"],
+                bundles: [{ qty: 2, price: 5500 }]
+            }
+        ];
+
+        // State Management with LocalStorage
+        let db = {
+            products: JSON.parse(localStorage.getItem('vexr_products')) || defaultProducts,
+            heroImages: JSON.parse(localStorage.getItem('vexr_hero')) || defaultHeroImages,
+            wilayas: JSON.parse(localStorage.getItem('vexr_wilayas')) || wilayasAlgeria.map(w => ({ name: w, desk: 500, door: 800, active: true })),
+            orders: JSON.parse(localStorage.getItem('vexr_orders')) || [],
+            customs: JSON.parse(localStorage.getItem('vexr_customs')) || [],
+            cart: JSON.parse(localStorage.getItem('vexr_cart')) || [],
+            logoUrl: localStorage.getItem('vexr_logo') || '',
+            ownerPhone: localStorage.getItem('vexr_owner_phone') || ''
+        };
+
+        function saveDB() {
+            localStorage.setItem('vexr_products', JSON.stringify(db.products));
+            localStorage.setItem('vexr_hero', JSON.stringify(db.heroImages));
+            localStorage.setItem('vexr_wilayas', JSON.stringify(db.wilayas));
+            localStorage.setItem('vexr_orders', JSON.stringify(db.orders));
+            localStorage.setItem('vexr_customs', JSON.stringify(db.customs));
+            localStorage.setItem('vexr_cart', JSON.stringify(db.cart));
+            localStorage.setItem('vexr_logo', db.logoUrl);
+            localStorage.setItem('vexr_owner_phone', db.ownerPhone);
+            updateCartBadge();
+            applyNavLogo();
+        }
+
+        // Initialization
+        window.addEventListener('DOMContentLoaded', () => {
+            initHeroSlider();
+            renderProducts('all');
+            populateWilayasDropdowns();
+            updateCartBadge();
+            applyNavLogo();
+            buildAdminTenImageInputs();
+        });
+
+        // Apply Logo to Top Left Navbar & Footer
+        function applyNavLogo() {
+            const container = document.getElementById('navLogoContainer');
+            const footerContainer = document.getElementById('footerLogoContainer');
+            
+            if (db.logoUrl && db.logoUrl.trim() !== '') {
+                if (container) container.innerHTML = `<img src="${db.logoUrl}" class="w-full h-full object-cover">`;
+                if (footerContainer) footerContainer.innerHTML = `<img src="${db.logoUrl}" class="w-full h-full object-cover">`;
+            } else {
+                if (container) container.innerHTML = `<span id="navLogoText">V</span>`;
+                if (footerContainer) footerContainer.innerHTML = `V`;
+            }
+        }
+
+        function saveAdminLogo() {
+            const url = document.getElementById('adminLogoUrlInput').value.trim();
+            db.logoUrl = url;
+            saveDB();
+            alert("تم تحديث شعار الموقع في الأعلى والأسفل بنجاح!");
+        }
+
+        function saveOwnerPhone() {
+            const phone = document.getElementById('adminOwnerPhoneInput').value.trim();
+            db.ownerPhone = phone;
+            saveDB();
+            alert("تم حفظ رقم هاتفك بنجاح لتلقي الإشعارات!");
+        }
+
+        // Custom Design 4 Individual Image Slots Handler
+        let customImagesArray = ["", "", "", ""];
+        function handleCustomSingleImage(e, index) {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(uploadEvent) {
+                customImagesArray[index] = uploadEvent.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // Admin 10 Individual Image Slots Handler with Compact Collapsible UI
+        let adminTenImagesArray = new Array(10).fill("");
+
+        function buildAdminTenImageInputs() {
+            const container = document.getElementById('adminTenImageInputsContainer');
+            if (!container) return;
+            let html = "";
+            for (let i = 0; i < 10; i++) {
+                html += `
+                    <div class="bg-vexr-card border border-vexr-border rounded-xl p-2.5 flex items-center justify-between gap-2 ${i >= 4 ? 'admin-extra-image-slot' : ''}">
+                        <span class="text-[11px] font-bold text-vexr-gold">صورة ${i + 1}</span>
+                        <input type="file" accept="image/*" onchange="handleAdminSingleImage(event, ${i})" class="w-2/3 text-[10px] text-gray-400 file:py-1 file:px-2 file:rounded file:border-0 file:text-[10px] file:font-bold file:bg-vexr-gold file:text-black">
+                    </div>
+                `;
+            }
+            container.innerHTML = html;
+        }
+
+        function toggleAdminImageDrawer() {
+            const body = document.getElementById('adminImageDrawerBody');
+            const icon = document.getElementById('adminImageDrawerIcon');
+            if (body.classList.contains('hidden')) {
+                body.classList.remove('hidden');
+                icon.style.transform = 'rotate(180deg)';
+            } else {
+                body.classList.add('hidden');
+                icon.style.transform = 'rotate(0deg)';
+            }
+        }
+
+        function handleAdminSingleImage(e, index) {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(uploadEvent) {
+                adminTenImagesArray[index] = uploadEvent.target.result;
+                updateAdminImagesHiddenField();
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function updateAdminImagesHiddenField() {
+            const validImgs = adminTenImagesArray.filter(img => img && img.trim() !== "");
+            document.getElementById('pImages').value = validImgs.join('\n');
+            const statusEl = document.getElementById('adminImageCountStatus');
+            if (statusEl) {
+                statusEl.innerText = `مُختار ${validImgs.length} صور (تظهر 4 أزرار مصغرة أولاً)`;
+            }
+        }
+
+        // Secret Admin Trigger in Search Bar
+        let searchSecretBuffer = "";
+        function handleGlobalSearch(query) {
+            if (query.trim() === "VEXR YAHIA_26") {
+                document.getElementById('passwordModal').classList.remove('hidden');
+                document.getElementById('passwordModal').classList.add('flex');
+                document.getElementById('searchInput').value = "";
+                return;
+            }
+            renderProducts('all', query);
+        }
+
+        function closePasswordModal() {
+            document.getElementById('passwordModal').classList.remove('flex');
+            document.getElementById('passwordModal').classList.add('hidden');
+            document.getElementById('adminPasswordInput').value = "";
+        }
+
+        function verifyAdminPassword() {
+            const pass = document.getElementById('adminPasswordInput').value;
+            if (pass === "VEXRYK_26") {
+                closePasswordModal();
+                switchTab('admin');
+                initAdminDashboard();
+            } else {
+                alert("كلمة المرور غير صحيحة!");
+            }
+        }
+
+        function logoutAdmin() {
+            switchTab('shop');
+        }
+
+        // Tab Switching
+        function switchTab(tab) {
+            ['shopView', 'customView', 'trackingView', 'adminView'].forEach(v => {
+                document.getElementById(v).classList.add('hidden');
+            });
+            if (tab === 'shop') document.getElementById('shopView').classList.remove('hidden');
+            if (tab === 'custom') document.getElementById('customView').classList.remove('hidden');
+            if (tab === 'tracking') document.getElementById('trackingView').classList.remove('hidden');
+            if (tab === 'admin') document.getElementById('adminView').classList.remove('hidden');
+            window.scrollTo(0, 0);
+        }
+
+        // Cinematic Hero Slider
+        let currentHeroIndex = 0;
+        let heroInterval;
+
+        function initHeroSlider() {
+            const container = document.getElementById('heroSliderContainer');
+            if (!container) return;
+            container.innerHTML = db.heroImages.map((img, idx) => `
+                <div class="absolute inset-0 transition-opacity duration-1000 ease-in-out ${idx === 0 ? 'opacity-100' : 'opacity-0'} hero-slide" style="background-image: url('${img}'); background-size: cover; background-position: center;">
+                    <div class="absolute inset-0 bg-black/50"></div>
+                </div>
+            `).join('');
+
+            if (heroInterval) clearInterval(heroInterval);
+            heroInterval = setInterval(() => {
+                const slides = document.querySelectorAll('.hero-slide');
+                if (slides.length === 0) return;
+                slides[currentHeroIndex].style.opacity = '0';
+                currentHeroIndex = (currentHeroIndex + 1) % slides.length;
+                slides[currentHeroIndex].style.opacity = '1';
+            }, 5000);
+        }
+
+        // Render Products
+        function renderProducts(category, searchQuery = '') {
+            const grid = document.getElementById('productsGrid');
+            if (!grid) return;
+
+            let filtered = db.products;
+            if (category !== 'all') {
+                filtered = filtered.filter(p => p.category === category);
+            }
+            if (searchQuery.trim() !== '') {
+                const q = searchQuery.toLowerCase();
+                filtered = filtered.filter(p => p.name.toLowerCase().includes(q) || p.desc.toLowerCase().includes(q));
+            }
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `<div class="col-span-full text-center py-20 text-gray-500">لا توجد منتجات مطابقة للبحث.</div>`;
+                return;
+            }
+
+            grid.innerHTML = filtered.map(p => `
+                <div class="bg-vexr-card border border-vexr-border rounded-3xl overflow-hidden group hover:border-vexr-gold transition-all duration-300 flex flex-col justify-between shadow-lg">
+                    <div class="relative h-80 overflow-hidden cursor-pointer" onclick="openProductModal('${p.id}')">
+                        <img src="${p.images[0]}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        ${p.oldPrice ? `<span class="absolute top-4 right-4 bg-red-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md">تخفيض</span>` : ''}
+                    </div>
+                    <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
+                        <div>
+                            <h3 class="font-bold text-lg text-white cursor-pointer hover:text-vexr-gold transition-colors" onclick="openProductModal('${p.id}')">${p.name}</h3>
+                            <p class="text-gray-400 text-xs mt-2 line-clamp-2">${p.desc}</p>
+                        </div>
+                        <div class="flex items-center justify-between pt-4 border-t border-vexr-border">
+                            <div>
+                                <span class="text-xl font-black price-3d">${p.price} دج</span>
+                                ${p.oldPrice ? `<span class="block text-xs text-gray-500 line-through">${p.oldPrice} دج</span>` : ''}
+                            </div>
+                            <button onclick="openProductModal('${p.id}')" class="px-4 py-2.5 bg-white text-black font-bold text-xs rounded-xl hover:bg-vexr-gold transition-all">
+                                عرض التفاصيل
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function filterCategory(cat) {
+            document.querySelectorAll('.cat-btn').forEach(btn => {
+                btn.classList.remove('bg-white', 'text-black');
+                btn.classList.add('bg-vexr-card', 'border', 'border-vexr-border', 'text-gray-300');
+            });
+            event.target.classList.remove('bg-vexr-card', 'border', 'border-vexr-border', 'text-gray-300');
+            event.target.classList.add('bg-white', 'text-black');
+            renderProducts(cat);
+        }
+
+        function scrollToProducts() {
+            document.getElementById('productsSection').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Product Details Modal
+        let activeProductModal = null;
+        function openProductModal(id) {
+            const p = db.products.find(item => item.id === id);
+            if (!p) return;
+            activeProductModal = p;
+
+            const modalContent = document.getElementById('productModalContent');
+            modalContent.innerHTML = `
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="space-y-4">
+                        <div class="h-96 rounded-2xl overflow-hidden border border-vexr-border">
+                            <img id="mainProductPreview" src="${p.images[0]}" class="w-full h-full object-cover">
+                        </div>
+                        <div class="flex gap-2 overflow-x-auto pb-2">
+                            ${p.images.map((img, i) => `
+                                <img src="${img}" onclick="document.getElementById('mainProductPreview').src='${img}'" class="w-16 h-16 rounded-xl object-cover cursor-pointer border border-vexr-border hover:border-vexr-gold transition-all">
+                            `).join('')}
+                        </div>
+                    </div>
+                    <div class="space-y-6 flex flex-col justify-between">
+                        <div>
+                            <span class="text-vexr-gold text-xs font-bold uppercase tracking-widest">${p.category}</span>
+                            <h2 class="text-3xl font-black text-white mt-1">${p.name}</h2>
+                            <div class="flex items-center gap-4 mt-3">
+                                <span class="text-3xl font-black price-3d">${p.price} دج</span>
+                                ${p.oldPrice ? `<span class="text-lg text-gray-500 line-through">${p.oldPrice} دج</span>` : ''}
+                            </div>
+                            <p class="text-gray-300 text-sm mt-4 leading-relaxed">${p.desc}</p>
+                        </div>
+
+                        <div class="space-y-4 border-t border-vexr-border pt-4">
+                            <div>
+                                <label class="block text-xs font-semibold text-gray-400 mb-2">اختر اللون:</label>
+                                <div id="selectedColorGroup" class="flex gap-2 flex-wrap">
+                                    ${p.colors.map((c, i) => `
+                                        <button onclick="selectModalOption('color', '${c}')" class="color-opt px-4 py-2 rounded-xl border ${i === 0 ? 'border-vexr-gold bg-vexr-gold/10 text-vexr-gold' : 'border-vexr-border text-gray-400'} text-xs font-bold transition-all">${c}</button>
+                                    `).join('')}
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-gray-400 mb-2">اختر المقاس:</label>
+                                <div id="selectedSizeGroup" class="flex gap-2 flex-wrap">
+                                    ${p.sizes.map((s, i) => `
+                                        <button onclick="selectModalOption('size', '${s}')" class="size-opt px-4 py-2 rounded-xl border ${i === 0 ? 'border-vexr-gold bg-vexr-gold/10 text-vexr-gold' : 'border-vexr-border text-gray-400'} text-xs font-bold transition-all">${s}</button>
+                                    `).join('')}
+                                </div>
+                            </div>
+                            ${p.bundles && p.bundles.length > 0 ? `
+                                <div class="bg-vexr-dark p-4 rounded-2xl border border-vexr-border space-y-2">
+                                    <span class="text-xs font-bold text-vexr-gold flex items-center gap-1"><i class="fa-solid fa-tags"></i> عروض التوفير المتاحة:</span>
+                                    ${p.bundles.map(b => `
+                                        <div class="flex justify-between text-xs text-gray-300">
+                                            <span>اشتري ${b.qty} قطع:</span>
+                                            <span class="font-bold text-white">${b.price} دج</span>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            ` : ''}
+                        </div>
+
+                        <button onclick="addToCartFromModal()" class="w-full py-4 bg-gradient-to-r from-vexr-gold to-yellow-600 text-black font-black rounded-xl hover:opacity-95 transition-all shadow-xl text-base">
+                            إضافة إلى السلة <i class="fa-solid fa-bag-shopping ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+            `;
+            selectedModalColor = p.colors[0] || null;
+            selectedModalSize = p.sizes[0] || null;
+            document.getElementById('productModal').classList.remove('hidden');
+            document.getElementById('productModal').classList.add('flex');
+        }
+
+        let selectedModalColor = null;
+        let selectedModalSize = null;
+
+        function selectModalOption(type, val) {
+            if (!activeProductModal) return;
+            if (type === 'color') {
+                selectedModalColor = val;
+                document.querySelectorAll('.color-opt').forEach(btn => {
+                    if (btn.innerText.trim() === val) {
+                        btn.className = "color-opt px-4 py-2 rounded-xl border border-vexr-gold bg-vexr-gold/10 text-vexr-gold text-xs font-bold transition-all";
+                    } else {
+                        btn.className = "color-opt px-4 py-2 rounded-xl border border-vexr-border text-gray-400 text-xs font-bold transition-all";
+                    }
+                });
+            } else if (type === 'size') {
+                selectedModalSize = val;
+                document.querySelectorAll('.size-opt').forEach(btn => {
+                    if (btn.innerText.trim() === val) {
+                        btn.className = "size-opt px-4 py-2 rounded-xl border border-vexr-gold bg-vexr-gold/10 text-vexr-gold text-xs font-bold transition-all";
+                    } else {
+                        btn.className = "size-opt px-4 py-2 rounded-xl border border-vexr-border text-gray-400 text-xs font-bold transition-all";
+                    }
+                });
+            }
+        }
+
+        function closeProductModal() {
+            document.getElementById('productModal').classList.remove('flex');
+            document.getElementById('productModal').classList.add('hidden');
+            activeProductModal = null;
+            selectedModalColor = null;
+            selectedModalSize = null;
+        }
+
+        // Cart System
+        function addToCartFromModal() {
+            if (!activeProductModal) return;
+            const color = selectedModalColor || activeProductModal.colors[0];
+            const size = selectedModalSize || activeProductModal.sizes[0];
+
+            const existingItem = db.cart.find(i => i.id === activeProductModal.id && i.color === color && i.size === size);
+            if (existingItem) {
+                existingItem.qty += 1;
+            } else {
+                db.cart.push({
+                    id: activeProductModal.id,
+                    name: activeProductModal.name,
+                    price: activeProductModal.price,
+                    image: activeProductModal.images[0],
+                    color: color,
+                    size: size,
+                    qty: 1,
+                    bundles: activeProductModal.bundles
+                });
+            }
+            saveDB();
+            closeProductModal();
+            toggleCartModal();
+        }
+
+        function toggleCartModal() {
+            const modal = document.getElementById('cartModal');
+            if (modal.classList.contains('hidden')) {
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+                renderCartItems();
+            } else {
+                modal.classList.remove('flex');
+                modal.classList.add('hidden');
+            }
+        }
+
+        function renderCartItems() {
+            const list = document.getElementById('cartItemsList');
+            if (db.cart.length === 0) {
+                list.innerHTML = `<div class="text-center py-20 text-gray-500">سلة المشتريات فارغة.</div>`;
+                document.getElementById('cartTotalPrice').innerText = "0 دج";
+                return;
+            }
+
+            let total = 0;
+            list.innerHTML = db.cart.map((item, idx) => {
+                let itemTotal = item.price * item.qty;
+                if (item.bundles && item.bundles.length > 0) {
+                    item.bundles.forEach(b => {
+                        if (item.qty >= b.qty) {
+                            let multiplier = Math.floor(item.qty / b.qty);
+                            let remainder = item.qty % b.qty;
+                            itemTotal = (multiplier * b.price) + (remainder * item.price);
+                        }
+                    });
+                }
+                total += itemTotal;
+
+                return `
+                    <div class="bg-vexr-dark border border-vexr-border rounded-2xl p-4 flex gap-4 items-center">
+                        <img src="${item.image}" class="w-20 h-20 rounded-xl object-cover">
+                        <div class="flex-1">
+                            <h4 class="font-bold text-sm text-white">${item.name}</h4>
+                            <p class="text-xs text-gray-400 mt-1">اللون: ${item.color} | المقاس: ${item.size}</p>
+                            <div class="flex items-center justify-between mt-3">
+                                <span class="font-black text-vexr-gold text-sm">${itemTotal} دج</span>
+                                <div class="flex items-center gap-2">
+                                    <button onclick="updateCartQty(${idx}, -1)" class="w-7 h-7 rounded-lg bg-vexr-card border border-vexr-border text-white">-</button>
+                                    <span class="text-xs font-bold">${item.qty}</span>
+                                    <button onclick="updateCartQty(${idx}, 1)" class="w-7 h-7 rounded-lg bg-vexr-card border border-vexr-border text-white">+</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            document.getElementById('cartTotalPrice').innerText = total + " دج";
+        }
+
+        function updateCartQty(idx, delta) {
+            db.cart[idx].qty += delta;
+            if (db.cart[idx].qty <= 0) {
+                db.cart.splice(idx, 1);
+            }
+            saveDB();
+            renderCartItems();
+        }
+
+        function updateCartBadge() {
+            const count = db.cart.reduce((acc, item) => acc + item.qty, 0);
+            document.getElementById('cartBadge').innerText = count;
+        }
+
+        // Checkout & Wilayas
+        function populateWilayasDropdowns() {
+            const dropdowns = ['orderWilaya', 'customWilaya'];
+            dropdowns.forEach(id => {
+                const el = document.getElementById(id);
+                if (!el) return;
+                el.innerHTML = `<option value="">اختر الولاية...</option>` + db.wilayas.map(w => `
+                    <option value="${w.name}">${w.name}</option>
+                `).join('');
+            });
+        }
+
+        function openCheckout() {
+            if (db.cart.length === 0) {
+                alert("السلة فارغة!");
+                return;
+            }
+            toggleCartModal();
+            document.getElementById('checkoutModal').classList.remove('hidden');
+            document.getElementById('checkoutModal').classList.add('flex');
+            calculateSummary();
+        }
+
+        function closeCheckout() {
+            document.getElementById('checkoutModal').classList.remove('flex');
+            document.getElementById('checkoutModal').classList.add('hidden');
+        }
+
+        function updateShippingCost() {
+            calculateSummary();
+        }
+
+        function calculateSummary() {
+            let subtotal = 0;
+            db.cart.forEach(item => {
+                let itemTotal = item.price * item.qty;
+                if (item.bundles) {
+                    item.bundles.forEach(b => {
+                        if (item.qty >= b.qty) {
+                            let m = Math.floor(item.qty / b.qty);
+                            let r = item.qty % b.qty;
+                            itemTotal = (m * b.price) + (r * item.price);
+                        }
+                    });
+                }
+                subtotal += itemTotal;
+            });
+
+            const wilayaName = document.getElementById('orderWilaya').value;
+            const deliveryType = document.getElementById('orderDeliveryType').value;
+            let shippingCost = 0;
+
+            if (wilayaName) {
+                const wObj = db.wilayas.find(w => w.name === wilayaName);
+                if (wObj) {
+                    shippingCost = deliveryType === 'desk' ? wObj.desk : wObj.door;
+                }
+            }
+
+            document.getElementById('summarySubtotal').innerText = subtotal + " دج";
+            document.getElementById('summaryShipping').innerText = shippingCost + " دج";
+            document.getElementById('summaryTotal').innerText = (subtotal + shippingCost) + " دج";
+        }
+
+        function submitOrder(e) {
+            e.preventDefault();
+            const name = document.getElementById('orderName').value;
+            const phone = document.getElementById('orderPhone').value;
+            const wilaya = document.getElementById('orderWilaya').value;
+            const baladia = document.getElementById('orderBaladia').value;
+            const deliveryType = document.getElementById('orderDeliveryType').value;
+            const address = document.getElementById('orderAddress').value;
+
+            let subtotal = 0;
+            db.cart.forEach(item => {
+                let itemTotal = item.price * item.qty;
+                if (item.bundles) {
+                    item.bundles.forEach(b => {
+                        if (item.qty >= b.qty) {
+                            let m = Math.floor(item.qty / b.qty);
+                            let r = item.qty % b.qty;
+                            itemTotal = (m * b.price) + (r * item.price);
+                        }
+                    });
+                }
+                subtotal += itemTotal;
+            });
+
+            const wObj = db.wilayas.find(w => w.name === wilaya);
+            const shippingCost = wObj ? (deliveryType === 'desk' ? wObj.desk : wObj.door) : 0;
+            const total = subtotal + shippingCost;
+
+            const newOrder = {
+                id: 'ORD-' + Date.now(),
+                date: new Date().toISOString(),
+                name, phone, wilaya, baladia, deliveryType, address,
+                items: [...db.cart],
+                subtotal, shippingCost, total,
+                status: 'قيد المعالجة'
+            };
+
+            db.orders.unshift(newOrder);
+            db.cart = [];
+            saveDB();
+            closeCheckout();
+            
+            // Trigger Phone Notification Message Popup
+            triggerOrderNotification(newOrder);
+
+            alert("تم إرسال طلبك بنجاح! شكراً لثقتك بـ VEXR.");
+            switchTab('shop');
+        }
+
+        function triggerOrderNotification(order) {
+            if (!db.ownerPhone) return;
+            const message = `🔥 *طلبيه جديدة وصلت!* 🚀\n\n` +
+                            `👤 الزبون: ${order.name}\n` +
+                            `📞 الهاتف: ${order.phone}\n` +
+                            `📍 الولاية: ${order.wilaya} (${order.baladia})\n` +
+                            `🚚 التوصيل: ${order.deliveryType === 'desk' ? 'لمكتب' : 'للباب'}\n` +
+                            `💰 المجموع: ${order.total} دج\n` +
+                            `📱 مرسلة إلى الرقم: ${db.ownerPhone}\n` +
+                            `✨ بالتوفيق في تأكيدها!`;
+
+            const contentEl = document.getElementById('orderNotificationContent');
+            contentEl.innerHTML = message.replace(/\n/g, '<br>');
+            document.getElementById('orderNotificationModal').classList.remove('hidden');
+            document.getElementById('orderNotificationModal').classList.add('flex');
+        }
+
+        function closeOrderNotificationModal() {
+            document.getElementById('orderNotificationModal').classList.remove('flex');
+            document.getElementById('orderNotificationModal').classList.add('hidden');
+        }
+
+        // Custom Design Submission
+        function submitCustomDesign(e) {
+            e.preventDefault();
+            const name = document.getElementById('customName').value;
+            const phone = document.getElementById('customPhone').value;
+            const wilaya = document.getElementById('customWilaya').value;
+            const baladia = document.getElementById('customBaladia').value;
+            const desc = document.getElementById('customDesc').value;
+            
+            const validCustomImgs = customImagesArray.filter(img => img && img.trim() !== "");
+
+            const newCustom = {
+                id: 'CUST-' + Date.now(),
+                date: new Date().toISOString(),
+                name, phone, wilaya, baladia, desc,
+                images: validCustomImgs,
+                status: 'جديد'
+            };
+
+            db.customs.unshift(newCustom);
+            saveDB();
+            alert("تم إرسال طلب التصميم الخاص بنجاح! سنتواصل معك قريباً.");
+            e.target.reset();
+            customImagesArray = ["", "", "", ""];
+            switchTab('shop');
+        }
+
+        // Order Tracking
+        function trackOrders() {
+            const phone = document.getElementById('trackPhoneInput').value.trim();
+            const resultsDiv = document.getElementById('trackingResults');
+            if (!phone) {
+                alert("الرجاء إدخال رقم الهاتف");
+                return;
+            }
+
+            const found = db.orders.filter(o => o.phone === phone);
+            if (found.length === 0) {
+                resultsDiv.innerHTML = `<p class="text-gray-400 text-sm">لا توجد طلبات مسجلة بهذا الرقم.</p>`;
+                return;
+            }
+
+            resultsDiv.innerHTML = found.map(o => `
+                <div class="bg-vexr-dark p-4 rounded-2xl border border-vexr-border space-y-2">
+                    <div class="flex justify-between text-xs text-gray-400">
+                        <span>رقم الطلب: ${o.id}</span>
+                        <span class="text-vexr-gold font-bold">${o.status}</span>
+                    </div>
+                    <div class="text-sm font-bold text-white">المبلغ الإجمالي: ${o.total} دج</div>
+                    <div class="text-xs text-gray-400">الولاية: ${o.wilaya} | التاريخ: ${new Date(o.date).toLocaleDateString()}</div>
+                </div>
+            `).join('');
+        }
+
+        // Interactive Color & Size Selector Builders for Admin Product Form
+        let formBuilderColors = [];
+        let formBuilderSizes = [];
+
+        function addColorOption() {
+            const input = document.getElementById('colorInputText');
+            const val = input.value.trim();
+            if (!val) return;
+            if (!formBuilderColors.includes(val)) {
+                formBuilderColors.push(val);
+            }
+            input.value = "";
+            renderColorChips();
+        }
+
+        function removeColorOption(val) {
+            formBuilderColors = formBuilderColors.filter(c => c !== val);
+            renderColorChips();
+        }
+
+        function renderColorChips() {
+            const container = document.getElementById('colorChipsContainer');
+            container.innerHTML = formBuilderColors.map(c => `
+                <span class="px-3 py-1 bg-vexr-gold/10 border border-vexr-gold text-vexr-gold text-xs rounded-xl flex items-center gap-2 font-bold">
+                    ${c} <button type="button" onclick="removeColorOption('${c}')" class="hover:text-red-400"><i class="fa-solid fa-xmark"></i></button>
+                </span>
+            `).join('');
+            document.getElementById('pColors').value = formBuilderColors.join(', ');
+        }
+
+        function addSizeOption() {
+            const input = document.getElementById('sizeInputText');
+            const val = input.value.trim();
+            if (!val) return;
+            if (!formBuilderSizes.includes(val)) {
+                formBuilderSizes.push(val);
+            }
+            input.value = "";
+            renderSizeChips();
+        }
+
+        function removeSizeOption(val) {
+            formBuilderSizes = formBuilderSizes.filter(s => s !== val);
+            renderSizeChips();
+        }
+
+        function renderSizeChips() {
+            const container = document.getElementById('sizeChipsContainer');
+            container.innerHTML = formBuilderSizes.map(s => `
+                <span class="px-3 py-1 bg-vexr-gold/10 border border-vexr-gold text-vexr-gold text-xs rounded-xl flex items-center gap-2 font-bold">
+                    ${s} <button type="button" onclick="removeSizeOption('${s}')" class="hover:text-red-400"><i class="fa-solid fa-xmark"></i></button>
+                </span>
+            `).join('');
+            document.getElementById('pSizes').value = formBuilderSizes.join(', ');
+        }
+
+        // Admin Dashboard Functions
+        function initAdminDashboard() {
+            calculateAdminStats();
+            renderAdminProducts();
+            renderAdminOrders();
+            renderAdminHero();
+            renderAdminWilayas();
+            renderAdminCustoms();
+            initProfitChart();
+            document.getElementById('adminLogoUrlInput').value = db.logoUrl || '';
+            document.getElementById('adminOwnerPhoneInput').value = db.ownerPhone || '';
+        }
+
+        function switchAdminTab(tab) {
+            ['adminProducts', 'adminOrders', 'adminHero', 'adminWilayas', 'adminCustoms', 'adminSettings', 'adminAnalytics'].forEach(id => {
+                document.getElementById(id).classList.add('hidden');
+            });
+            document.querySelectorAll('.admin-tab-btn').forEach(btn => {
+                btn.className = "admin-tab-btn px-6 py-3 rounded-xl bg-vexr-card border border-vexr-border text-gray-300 font-medium text-sm hover:border-vexr-gold transition-all";
+            });
+
+            if (tab === 'products') {
+                document.getElementById('adminProducts').classList.remove('hidden');
+                event.target.className = "admin-tab-btn px-6 py-3 rounded-xl bg-vexr-gold text-black font-bold text-sm transition-all";
+            } else if (tab === 'orders') {
+                document.getElementById('adminOrders').classList.remove('hidden');
+                event.target.className = "admin-tab-btn px-6 py-3 rounded-xl bg-vexr-gold text-black font-bold text-sm transition-all";
+            } else if (tab === 'hero') {
+                document.getElementById('adminHero').classList.remove('hidden');
+                event.target.className = "admin-tab-btn px-6 py-3 rounded-xl bg-vexr-gold text-black font-bold text-sm transition-all";
+            } else if (tab === 'wilayas') {
+                document.getElementById('adminWilayas').classList.remove('hidden');
+                event.target.className = "admin-tab-btn px-6 py-3 rounded-xl bg-vexr-gold text-black font-bold text-sm transition-all";
+            } else if (tab === 'customs') {
+                document.getElementById('adminCustoms').classList.remove('hidden');
+                event.target.className = "admin-tab-btn px-6 py-3 rounded-xl bg-vexr-gold text-black font-bold text-sm transition-all";
+            } else if (tab === 'settings') {
+                document.getElementById('adminSettings').classList.remove('hidden');
+                event.target.className = "admin-tab-btn px-6 py-3 rounded-xl bg-vexr-gold text-black font-bold text-sm transition-all";
+            } else if (tab === 'analytics') {
+                document.getElementById('adminAnalytics').classList.remove('hidden');
+                event.target.className = "admin-tab-btn px-6 py-3 rounded-xl bg-vexr-gold text-black font-bold text-sm transition-all";
+            }
+        }
+
+        function calculateAdminStats() {
+            const today = new Date().toDateString();
+            const currentMonth = new Date().getMonth();
+            const currentYear = new Date().getFullYear();
+
+            let todayProfit = 0;
+            let monthProfit = 0;
+            let todayOrders = 0;
+            let monthOrders = 0;
+            let soldItems = 0;
+
+            db.orders.forEach(o => {
+                const oDate = new Date(o.date);
+                if (oDate.toDateString() === today) {
+                    todayProfit += o.total;
+                    todayOrders++;
+                }
+                if (oDate.getMonth() === currentMonth && oDate.getFullYear() === currentYear) {
+                    monthProfit += o.total;
+                    monthOrders++;
+                }
+                o.items.forEach(i => soldItems += i.qty);
+            });
+
+            document.getElementById('statTodayProfit').innerText = todayProfit + " دج";
+            document.getElementById('statMonthProfit').innerText = monthProfit + " دج";
+            document.getElementById('statOrdersCount').innerText = `${todayOrders} / ${monthOrders}`;
+            document.getElementById('statSoldItems').innerText = soldItems;
+        }
+
+        function renderAdminProducts() {
+            const list = document.getElementById('adminProductsList');
+            list.innerHTML = db.products.map(p => `
+                <div class="bg-vexr-dark border border-vexr-border rounded-2xl p-4 flex gap-4 items-center">
+                    <img src="${p.images[0]}" class="w-16 h-16 rounded-xl object-cover">
+                    <div class="flex-1">
+                        <h4 class="font-bold text-sm text-white">${p.name}</h4>
+                        <p class="text-xs text-vexr-gold font-bold mt-1">${p.price} دج</p>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="editProduct('${p.id}')" class="p-2 rounded-xl bg-vexr-card border border-vexr-border text-gray-300 hover:text-white"><i class="fa-solid fa-pen"></i></button>
+                        <button onclick="deleteProduct('${p.id}')" class="p-2 rounded-xl bg-red-600/20 border border-red-500/50 text-red-400"><i class="fa-solid fa-trash"></i></button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function openProductFormModal() {
+            document.getElementById('productForm').reset();
+            document.getElementById('editProductId').value = "";
+            document.getElementById('productFormTitle').innerText = "إضافة منتج جديد";
+            formBuilderColors = ["أسود", "أبيض"];
+            formBuilderSizes = ["M", "L"];
+            renderColorChips();
+            renderSizeChips();
+            adminTenImagesArray = new Array(10).fill("");
+            document.getElementById('pImages').value = "";
+            document.getElementById('adminImageCountStatus').innerText = "مُختار 0 صور (تظهر 4 أزرار مصغرة أولاً)";
+            document.getElementById('productFormModal').classList.remove('hidden');
+            document.getElementById('productFormModal').classList.add('flex');
+        }
+
+        function closeProductFormModal() {
+            document.getElementById('productFormModal').classList.remove('flex');
+            document.getElementById('productFormModal').classList.add('hidden');
+        }
+
+        function editProduct(id) {
+            const p = db.products.find(item => item.id === id);
+            if (!p) return;
+            document.getElementById('editProductId').value = p.id;
+            document.getElementById('pName').value = p.name;
+            document.getElementById('pPrice').value = p.price;
+            document.getElementById('pOldPrice').value = p.oldPrice || '';
+            document.getElementById('pCategory').value = p.category;
+            document.getElementById('pDesc').value = p.desc;
+            document.getElementById('pImages').value = p.images.join('\n');
+            
+            formBuilderColors = [...p.colors];
+            formBuilderSizes = [...p.sizes];
+            renderColorChips();
+            renderSizeChips();
+
+            document.getElementById('productFormTitle').innerText = "تعديل المنتج";
+            document.getElementById('productFormModal').classList.remove('hidden');
+            document.getElementById('productFormModal').classList.add('flex');
+        }
+
+        function deleteProduct(id) {
+            if (confirm("هل أنت متأكد من حذف هذا المنتج؟")) {
+                db.products = db.products.filter(p => p.id !== id);
+                saveDB();
+                renderAdminProducts();
+                renderProducts('all');
+            }
+        }
+
+        function saveProduct(e) {
+            e.preventDefault();
+            const id = document.getElementById('editProductId').value;
+            const name = document.getElementById('pName').value;
+            const price = Number(document.getElementById('pPrice').value);
+            const oldPrice = document.getElementById('pOldPrice').value ? Number(document.getElementById('pOldPrice').value) : null;
+            const category = document.getElementById('pCategory').value;
+            const desc = document.getElementById('pDesc').value;
+            const imagesRaw = document.getElementById('pImages').value.trim();
+            const images = imagesRaw ? imagesRaw.split('\n').map(s => s.trim()).filter(s => s !== '') : ["https://images.unsplash.com/photo-1521572267360-ee0c2909d518?q=80&w=800&auto=format&fit=crop"];
+            const colors = document.getElementById('pColors').value.split(',').map(s => s.trim());
+            const sizes = document.getElementById('pSizes').value.split(',').map(s => s.trim());
+
+            if (id) {
+                const p = db.products.find(item => item.id === id);
+                if (p) {
+                    p.name = name;
+                    p.price = price;
+                    p.oldPrice = oldPrice;
+                    p.category = category;
+                    p.desc = desc;
+                    p.images = images;
+                    p.colors = colors;
+                    p.sizes = sizes;
+                }
+            } else {
+                const newP = {
+                    id: 'vexr-' + Date.now(),
+                    name, price, oldPrice, category, desc, images, colors, sizes,
+                    bundles: [{ qty: 2, price: price * 2 - 500 }]
+                };
+                db.products.push(newP);
+            }
+
+            saveDB();
+            closeProductFormModal();
+            renderAdminProducts();
+            renderProducts('all');
+            alert("تم حفظ المنتج بنجاح!");
+        }
+
+        function renderAdminOrders() {
+            const list = document.getElementById('adminOrdersList');
+            if (db.orders.length === 0) {
+                list.innerHTML = `<p class="text-gray-400 text-sm">لا توجد طلبات واردة حالياً.</p>`;
+                return;
+            }
+
+            list.innerHTML = db.orders.map(o => `
+                <div class="bg-vexr-dark border border-vexr-border rounded-2xl p-6 space-y-4">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-vexr-border pb-3">
+                        <div>
+                            <span class="text-xs text-vexr-gold font-bold">${o.id}</span>
+                            <h4 class="font-black text-white text-base">${o.name} (${o.phone})</h4>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <select onchange="updateOrderStatus('${o.id}', this.value)" class="bg-vexr-card border border-vexr-border rounded-xl px-3 py-1.5 text-xs text-white">
+                                <option value="قيد المعالجة" ${o.status === 'قيد المعالجة' ? 'selected' : ''}>قيد المعالجة</option>
+                                <option value="مؤكد" ${o.status === 'مؤكد' ? 'selected' : ''}>مؤكد</option>
+                                <option value="قيد الشحن" ${o.status === 'قيد الشحن' ? 'selected' : ''}>قيد الشحن</option>
+                                <option value="تم التوصيل" ${o.status === 'تم التوصيل' ? 'selected' : ''}>تم التوصيل</option>
+                                <option value="ملغي" ${o.status === 'ملغي' ? 'selected' : ''}>ملغي</option>
+                            </select>
+                            <button onclick="deleteOrder('${o.id}')" class="p-2 bg-red-600/20 text-red-400 rounded-xl text-xs"><i class="fa-solid fa-trash"></i></button>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-gray-300">
+                        <div>
+                            <p><strong>الولاية:</strong> ${o.wilaya} - ${o.baladia}</p>
+                            <p><strong>العنوان:</strong> ${o.address}</p>
+                            <p><strong>التوصيل:</strong> ${o.deliveryType === 'desk' ? 'للمكتب' : 'للاب'}</p>
+                        </div>
+                        <div>
+                            <p><strong>المبلغ الإجمالي:</strong> <span class="text-vexr-gold font-bold">${o.total} دج</span></p>
+                            <p><strong>التاريخ:</strong> ${new Date(o.date).toLocaleString()}</p>
+                        </div>
+                    </div>
+                    <div class="border-t border-vexr-border pt-3 space-y-2">
+                        <span class="text-xs font-bold text-gray-400">المنتجات المطلوبة:</span>
+                        <div class="space-y-1">
+                            ${o.items.map(i => `
+                                <div class="flex justify-between text-xs bg-vexr-card p-2 rounded-xl">
+                                    <span>${i.name} (${i.color} / ${i.size}) × ${i.qty}</span>
+                                    <span class="font-bold text-vexr-gold">${i.price * i.qty} دج</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function updateOrderStatus(id, status) {
+            const o = db.orders.find(item => item.id === id);
+            if (o) {
+                o.status = status;
+                saveDB();
+                calculateAdminStats();
+            }
+        }
+
+        function deleteOrder(id) {
+            if (confirm("هل تريد حذف هذا الطلب؟")) {
+                db.orders = db.orders.filter(item => item.id !== id);
+                saveDB();
+                renderAdminOrders();
+                calculateAdminStats();
+            }
+        }
+
+        function renderAdminHero() {
+            const list = document.getElementById('adminHeroList');
+            list.innerHTML = db.heroImages.map((img, i) => `
+                <div class="relative h-40 rounded-2xl overflow-hidden border border-vexr-border">
+                    <img src="${img}" class="w-full h-full object-cover">
+                    <button onclick="deleteHeroImage(${i})" class="absolute top-2 left-2 p-2 bg-red-600 text-white rounded-lg text-xs"><i class="fa-solid fa-trash"></i></button>
+                </div>
+            `).join('');
+        }
+
+        function addHeroImage() {
+            const url = document.getElementById('newHeroUrl').value.trim();
+            if (!url) return;
+            db.heroImages.push(url);
+            saveDB();
+            document.getElementById('newHeroUrl').value = '';
+            renderAdminHero();
+            initHeroSlider();
+        }
+
+        function deleteHeroImage(idx) {
+            if (db.heroImages.length <= 1) {
+                alert("يجب أن تبقى صورة خلفية واحدة على الأقل!");
+                return;
+            }
+            db.heroImages.splice(idx, 1);
+            saveDB();
+            renderAdminHero();
+            initHeroSlider();
+        }
+
+        function renderAdminWilayas() {
+            const container = document.getElementById('adminWilayasList');
+            container.innerHTML = db.wilayas.map((w, i) => `
+                <div class="bg-vexr-dark border border-vexr-border rounded-2xl p-4 space-y-3">
+                    <div class="font-bold text-sm text-white">${w.name}</div>
+                    <div class="grid grid-cols-2 gap-2">
+                        <div>
+                            <label class="block text-[10px] text-gray-400">سعر المكتب (دج)</label>
+                            <input type="number" value="${w.desk}" onchange="updateWilayaPrice(${i}, 'desk', this.value)" class="w-full bg-vexr-card border border-vexr-border rounded-xl px-3 py-1.5 text-xs text-white">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] text-gray-400">سعر الباب (دج)</label>
+                            <input type="number" value="${w.door}" onchange="updateWilayaPrice(${i}, 'door', this.value)" class="w-full bg-vexr-card border border-vexr-border rounded-xl px-3 py-1.5 text-xs text-white">
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function updateWilayaPrice(idx, type, val) {
+            db.wilayas[idx][type] = Number(val);
+            saveDB();
+        }
+
+        function renderAdminCustoms() {
+            const list = document.getElementById('adminCustomsList');
+            if (db.customs.length === 0) {
+                list.innerHTML = `<p class="text-gray-400 text-sm">لا توجد طلبات تصميم خاص واردة.</p>`;
+                return;
+            }
+
+            list.innerHTML = db.customs.map(c => `
+                <div class="bg-vexr-dark border border-vexr-border rounded-2xl p-6 space-y-4">
+                    <div class="flex justify-between items-center border-b border-vexr-border pb-3">
+                        <div>
+                            <span class="text-xs text-vexr-gold font-bold">${c.id}</span>
+                            <h4 class="font-black text-white text-base">${c.name} (${c.phone})</h4>
+                        </div>
+                        <button onclick="deleteCustom('${c.id}')" class="p-2 bg-red-600/20 text-red-400 rounded-xl text-xs"><i class="fa-solid fa-trash"></i></button>
+                    </div>
+                    <p class="text-xs text-gray-300"><strong>الولاية:</strong> ${c.wilaya} - ${c.baladia}</p>
+                    <p class="text-xs text-gray-300"><strong>وصف التصميم:</strong> ${c.desc}</p>
+                    ${c.images && c.images.length > 0 ? `
+                        <div class="flex gap-2 overflow-x-auto pt-2">
+                            ${c.images.map(img => `<img src="${img}" class="w-20 h-20 rounded-xl object-cover border border-vexr-border">`).join('')}
+                        </div>
+                    ` : ''}
+                </div>
+            `).join('');
+        }
+
+        function deleteCustom(id) {
+            if (confirm("هل تريد حذف طلب التصميم هذا؟")) {
+                db.customs = db.customs.filter(item => item.id !== id);
+                saveDB();
+                renderAdminCustoms();
+            }
+        }
+
+        let profitChartInstance = null;
+        function initProfitChart() {
+            const ctx = document.getElementById('profitChart').getContext('2d');
+            if (profitChartInstance) profitChartInstance.destroy();
+
+            // Aggregate profit by date
+            let profitMap = {};
+            db.orders.forEach(o => {
+                let d = new Date(o.date).toLocaleDateString();
+                profitMap[d] = (profitMap[d] || 0) + o.total;
+            });
+
+            const labels = Object.keys(profitMap);
+            const data = Object.values(profitMap);
+
+            profitChartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels.length > 0 ? labels : ['لا توجد بيانات'],
+                    datasets: [{
+                        label: 'الأرباح (دج)',
+                        data: data.length > 0 ? data : [0],
+                        borderColor: '#d4af37',
+                        backgroundColor: 'rgba(212, 175, 55, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { labels: { color: '#f5f5f5' } }
+                    },
+                    scales: {
+                        x: { ticks: { color: '#a3a3a3' }, grid: { color: '#262626' } },
+                        y: { ticks: { color: '#a3a3a3' }, grid: { color: '#262626' } }
+                    }
+                }
+            });
+        }
+    </script>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+  import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyAJUwPxRVXYfusKBgWpmV4Kxu5zN865Wok",
+    authDomain: "vexr-3e2d0.firebaseapp.com",
+    projectId: "vexr-3e2d0",
+    storageBucket: "vexr-3e2d0.firebasestorage.app",
+    messagingSenderId: "236823793553",
+    appId: "1:236823793553:web:f6149a6e4823fd6bb35430"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const dbFire = getFirestore(app);
+  window.dbFire = dbFire;
+
+  // دالة لحفظ الطلب الجديد وإرساله إلى قاعدة بيانات Firestore السحابية
+  window.saveOrderToFirebase = async function(orderData) {
+      try {
+          const docRef = await addDoc(collection(dbFire, "orders"), {
+              ...orderData,
+              createdAt: new Date().toISOString()
+          });
+          console.log("تم حفظ الطلب بنجاح برقم ID: ", docRef.id);
+          alert("تم إرسال طلبك بنجاح وحفظه في السيرفر!");
+      } catch (e) {
+          console.error("خطأ أثناء حفظ الطلب: ", e);
+          alert("حدث خطأ أثناء إرسال الطلب، يرجى المحاولة مرة أخرى.");
+      }
+  };
+</script>
+</body>
+</html>
